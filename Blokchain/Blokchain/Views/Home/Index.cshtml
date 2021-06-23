@@ -1,0 +1,58 @@
+﻿@model IEnumerable<Blokchain.Models.Blok>
+@using Blokchain.Controllers;
+
+@{
+    ViewBag.Title = "Home Page";
+}
+@using Newtonsoft.Json;
+<div class="jumbotron p-2">
+    <script>
+
+
+        var KontrolEt = function (blokId) {
+            $.ajax({
+                type: "POST",
+                url: "/Home/ChangeValue?Id=" + blokId,
+                success: function (response)
+                {
+                    $("#control_"+blokId).addClass(response);
+                    console.log(response);
+                },
+                error: function ()
+                {
+                    console.log("error");
+                }
+            })
+        }
+    </script>
+
+    <div id="dangerId" class="scrollmenu ">
+        @foreach (var item in Model)
+        {
+
+            <button class="btn btn-warning" onclick="KontrolEt(@item.Indeks_No)"> Değiştir </button>
+            <div class="col-md-3 pb-2">
+
+                <label style="float:left">Index</label>
+                <input type="text" readonly class="form-control" name="name" value="@item.Indeks_No" />
+
+                <label style="float:left">Time</label>
+                <input type="text" readonly class="form-control" name="name" value="@item.Saat" />
+
+                <label style="float:left"> Previous Hash</label>
+                <input type="text" readonly class="form-control" name="name" value="@item.Onceki_Blok_Sifre" />
+
+                <label style="float:left">Hash</label>
+                <input type="text" readonly class="form-control" name="name" value="@item.Sifre" />
+
+                <label style="float:left">Data</label>
+                <textarea rows="5" readonly class="form-control" name="name">@item.Veri</textarea>
+
+                <div class="text-white" id="control_@item.Indeks_No"> Control </div>
+
+            </div>
+        }
+
+
+    </div>
+</div>
